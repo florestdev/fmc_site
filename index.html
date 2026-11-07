@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE FlorestMC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root{--neon:#00ffff;--space:#0a0a23;--star:#fff}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{background:var(--space);color:#fff;font-family:'Montserrat',sans-serif;overflow-x:hidden;min-height:100vh;position:relative}
+        .stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+        .star{position:absolute;background:var(--star);width:2px;height:2px;border-radius:50%;box-shadow:0 0 10px var(--neon);animation:fall linear infinite}
+        @keyframes fall{0%{transform:translateY(-100vh);opacity:0}10%{opacity:1}100%{transform:translateY(100vh);opacity:0}}
+        .container{position:relative;z-index:10;text-align:center;padding:40px 20px}
+        .logo{width:280px;height:280px;border-radius:50%;object-fit:cover;margin:40px auto;border:8px solid var(--neon);
+            box-shadow:0 0 40px var(--neon),0 0 80px var(--neon),inset 0 0 40px rgba(0,255,255,.3);
+            animation:pulse 4s infinite;transition:.5s}
+        .logo:hover{transform:scale(1.05)}
+        @keyframes pulse{0%,100%{box-shadow:0 0 40px var(--neon)}50%{box-shadow:0 0 80px var(--neon),0 0 120px var(--neon)}}
+        h1{font-family:'Orbitron',sans-serif;font-size:5rem;text-shadow:0 0 30px var(--neon);margin:20px 0;letter-spacing:4px}
+        .tagline{font-size:1.8rem;margin:15px 0 50px;opacity:.9;text-shadow:0 0 15px var(--neon)}
+        .buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:30px;margin:60px 0;perspective:1000px}
+        .planet{width:220px;height:220px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+            text-decoration:none;color:#000;font-weight:900;font-size:1.6rem;text-shadow:0 0 10px #fff;
+            position:relative;overflow:hidden;transition:all .4s;box-shadow:0 20px 40px rgba(0,0,0,.6);transform-style:preserve-3d}
+        .planet::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.4),transparent);opacity:0;transition:.4s}
+        .planet:hover{transform:translateY(-15px) rotateY(10deg);box-shadow:0 30px 60px rgba(0,255,255,.5)}
+        .planet:hover::before{opacity:1}
+        .planet span{position:relative;z-index:2}
+        .connect{background:linear-gradient(135deg,#00ff88,#00d4ff)}
+        .map{background:linear-gradient(135deg,#ff6b6b,#feca57)}
+        .tg{background:linear-gradient(135deg,#229ed9,#40c4ff)}
+
+        .online{font-size:2.2rem;margin:40px 0;text-shadow:0 0 25px var(--neon);animation:glow 2s infinite alternate}
+        @keyframes glow{from{text-shadow:0 0 20px var(--neon)}to{text-shadow:0 0 40px var(--neon),0 0 60px var(--neon)}}
+
+        .accordion{max-width:800px;margin:70px auto;cursor:pointer;background:rgba(0,0,0,.6);border:2px solid var(--neon);
+            border-radius:20px;overflow:hidden;box-shadow:0 0 40px rgba(0,255,255,.4)}
+        .acc-header{padding:25px;text-align:center;font-family:'Orbitron',sans-serif;font-size:2.4rem;
+            background:linear-gradient(90deg,transparent,rgba(0,255,255,.1));position:relative}
+        .acc-header::after{content:'v';position:absolute;right:30px;top:50%;transform:translateY(-50%);
+            font-size:2rem;transition:transform .4s;color:var(--neon)}
+        .acc-header.open::after{transform:translateY(-50%) rotate(180deg)}
+        .acc-content{max-height:0;overflow:hidden;transition:max-height .6s ease,padding .6s ease;padding:0 30px}
+        .acc-content.open{max-height:1500px;padding:30px}
+
+        .rules ol{text-align:left;font-size:1.2rem;line-height:2;counter-reset:rule}
+        .rules li{position:relative;padding-left:50px;margin:14px 0}
+        .rules li::before{content:counter(rule);counter-increment:rule;position:absolute;left:0;top:0;
+            width:34px;height:34px;background:var(--neon);color:#000;font-weight:900;border-radius:50%;
+            display:flex;align-items:center;justify-content:center;font-size:1.1rem;box-shadow:0 0 20px var(--neon)}
+
+        .info p{font-size:1.2rem;line-height:1.9;margin:18px 0;text-align:left}
+        .info a{color:var(--neon);text-decoration:underline}
+
+        /* ПЕРСОНАЛ */
+        .staff{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:30px;margin-top:20px}
+        .person{text-align:center}
+        .person img{width:120px;height:120px;border-radius:50%;border:4px solid var(--neon);
+            box-shadow:0 0 30px var(--neon);transition:.4s}
+        .person img:hover{transform:scale(1.15);box-shadow:0 0 50px var(--neon)}
+        .person .name{font-family:'Orbitron',sans-serif;font-size:1.4rem;margin:15px 0 8px;
+            text-shadow:0 0 15px var(--neon)}
+        .person .role{font-size:1.1rem;opacity:.9}
+
+        .ip-block{margin:60px auto;max-width:500px;background:rgba(0,0,0,.5);padding:25px;
+            border-radius:20px;border:2px solid var(--neon);box-shadow:0 0 30px rgba(0,255,255,.3)}
+        .ip-text{font-family:monospace;font-size:1.8rem;padding:15px;background:#000;
+            border-radius:12px;cursor:pointer;user-select:all;transition:.3s;position:relative}
+        .ip-text:hover{background:#111;box-shadow:0 0 20px var(--neon)}
+        .copied{position:absolute;top:-60px;left:50%;transform:translateX(-50%);
+            background:var(--neon);color:#000;padding:10px 20px;border-radius:10px;
+            font-weight:bold;opacity:0;transition:.4s;pointer-events:none}
+        footer{margin-top:80px;padding:30px;font-size:1rem;opacity:.7}
+
+        @media(max-width:768px){
+            h1{font-size:3rem}
+            .logo{width:200px;height:200px}
+            .planet{width:160px;height:160px;font-size:1.2rem}
+            .online{font-size:1.8rem}
+            .acc-header{font-size:2rem}
+            .rules ol,.info p{font-size:1rem}
+            .staff{grid-template-columns:1fr}
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars" id="stars"></div>
+    <div class="container">
+        <img src="https://a.imgfoto.host/2025/11/07/1000017962.md.jpeg" class="logo" id="serverLogo" alt="FlorestMC">
+        <h1>FLORESTMC</h1>
+        <p class="tagline">Выживание • Страны • Экономика • Java + Bedrock • Моды</p>
+
+        <div class="online">
+            <span id="onlineCount">Загрузка...</span> игроков онлайн
+        </div>
+
+        <div class="buttons">
+            <a href="#" onclick="alert('IP: java.florestmc.fun (play.florestmc.fun:20102)')" class="planet connect"><span>ИГРАТЬ<br>в Java</span></a>
+            <a href="#" onclick="alert('IP: play.florestmc.fun \nПорт: 20558')" class="planet connect"><span>ИГРАТЬ в<br>Bedrock</span></a>
+            <a href="http://map.florestmc.fun:20557" target="_blank" class="planet map"><span>ЖИВАЯ<br>КАРТА</span></a>
+            <a href="https://t.me/fmc_server" target="_blank" class="planet tg"><span>TELEGRAM<br>ЧАТ</span></a>
+        </div>
+
+        <!-- ПРАВИЛА -->
+        <div class="accordion rules" id="rules">
+            <div class="acc-header" id="rulesHeader">ПРАВИЛА FLORESTMC</div>
+            <div class="acc-content" id="rulesContent">
+                <ol>
+                    <li>Быть подписанным на <a href="https://t.me/florestchannel" target="_blank">@florestchannel</a></li>
+                    <li>Не вести себя токсично в чате.</li>
+                    <li>Не использовать читы.</li>
+                    <li>Не пропагандировать запрещенные идеологии РФ (включая символику).</li>
+                    <li>Не использовать сервер для финансового обогащения.</li>
+                    <li>Реклама только официальных ресурсов Флореста.</li>
+                    <li>Ненависть к группам по любому признаку запрещена.</li>
+                    <li>Деанонимизация игроков и админов запрещена.</li>
+                    <li>Администрация всегда права. Правила могут обновляться.</li>
+                    <li>Гриферство запрещено.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- ИНФОРМАЦИЯ О ПРОЕКТЕ -->
+        <div class="accordion info" id="info">
+            <div class="acc-header" id="infoHeader">ИНФОРМАЦИЯ О ПРОЕКТЕ</div>
+            <div class="acc-content" id="infoContent">
+                <p>Фанатский проект про страны и выживание. Большая история, ламповое сообщество, адекватная администрация — всё для твоего кайфа на сервере.</p>
+                <p>Сервер живёт с 2022 года и по сей день. Доната НЕТ — только честная игра!</p>
+                <p>Простая процедура получения админки и прав. Десятки плагинов, чтобы не было скучно. Разнообразие ролей для каждого.</p>
+                <p>Чат в реальном времени — <a href="https://t.me/fmc_server" target="_blank">@fmc_server</a><br>
+                   Карта онлайн — <a href="http://map.florestmc.ru" target="_blank">map.florestmc.ru</a></p>
+                <p style="font-size:1.4rem;margin-top:25px;text-align:center;">
+                    РОССИЙСКИЙ ПРОЕКТ ОТ РОССИЙСКОГО РАЗРАБОТЧИКА!
+                </p>
+            </div>
+        </div>
+
+        <!-- ПЕРСОНАЛ -->
+        <div class="accordion staff" id="staff">
+        <div class="acc-header" id="staffHeader">ПЕРСОНАЛ</div>
+            <div class="acc-content" id="staffContent">
+                <div class="staff">
+                    <div class="person">
+                        <img src="https://mc-heads.net/avatar/FlorestOne4185/120" alt="FlorestOne4185">
+                        <div class="name">FlorestOne4185</div>
+                        <div class="role">Владелец проекта</div>
+                    </div>
+                </div>
+                <p style="margin-top:30px;font-size:1.1rem;opacity:.9;">
+                    Пиши им в ЛС Telegram — всегда помогут!
+                </p>
+            </div>
+        </div>
+
+
+        <div class="ip-block">
+            <div class="ip-text" onclick="copyIP('java.florestmc.ru')">
+                java.florestmc.fun
+                <div class="copied">Скопировано!</div>
+            </div>
+            <small style="display:block;margin-top:10px;opacity:0.8;">
+                Bedrock: <code>play.florestmc.fun:20558</code><br>
+            </small>
+        </div>
+
+        <footer>
+            © 2026 FlorestMC • Все права защищены<br>
+            <a href="https://t.me/florestchatminecraft" style="color:var(--neon);text-decoration:none;">
+                @florestchatminecraft — чат-ретранслятор
+            </a>
+        </footer>
+    </div>
+
+    <script>
+        // Звёзды
+        for(let i=0;i<80;i++){
+            const s=document.createElement('div'); s.className='star';
+            s.style.left=Math.random()*100+'%';
+            s.style.animationDelay=Math.random()*8+'s';
+            s.style.animationDuration=Math.random()*4+3+'s';
+            document.getElementById('stars').appendChild(s);
+        }
+
+        // Копирование IP
+        function copyIP(t){
+            navigator.clipboard.writeText(t);
+            const n=event.target.querySelector('.copied');
+            n.style.opacity=1; n.style.top='-70px';
+            setTimeout(()=>{n.style.opacity=0; n.style.top='-60px';},1500);
+        }
+
+        // Резерв аватарки
+        document.getElementById('serverLogo').addEventListener('error',()=>{this.src='https://i.imgur.com/8k0Y5gP.jpg';});
+
+        // Онлайн
+        function updateOnline(){
+            fetch('https://api.mcsrvstat.us/3/play.florestmc.fun:20102')
+                .then(r=>r.json())
+                .then(d=>{
+                    const c=d.players?.online??0;
+                    const m=d.players?.max??0;
+                    document.getElementById('onlineCount').innerText = m?`${c}/${m}`:c;
+                })
+                .catch(()=>{document.getElementById('onlineCount').innerText='—';});
+        }
+        updateOnline(); setInterval(updateOnline,15000);
+
+        // Сворачивание
+        function init(id){
+            const h=document.getElementById(id+'Header');
+            const c=document.getElementById(id+'Content');
+            h.addEventListener('click',()=>{
+                c.classList.toggle('open');
+                h.classList.toggle('open');
+            });
+            if(window.innerWidth>768){
+                c.classList.add('open');
+                h.classList.add('open');
+            }
+        }
+        init('rules'); init('info'); init('staff');
+    </script>
+</body>
+</html>
